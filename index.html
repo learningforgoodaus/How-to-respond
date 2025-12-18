@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>How to Respond</title>
+<style>
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #413659;
+    background-color: #F2F2F2;
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+  }
+  .container {
+    width: 100%;
+    max-width: 1200px;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(65, 54, 89, 0.1);
+    overflow: hidden;
+  }
+  .header {
+    background-color: #413659;
+    color: #ffffff;
+    padding: 15px;
+    text-align: center;
+  }
+  .header h2 {
+    margin: 0;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+  }
+  .header p {
+    margin: 8px 0 0;
+    font-size: 0.95em;
+    opacity: 0.9;
+    color: #C6B4D9;
+  }
+  .tabs {
+    display: flex;
+    background-color: #413659;
+    cursor: pointer;
+    flex-wrap: wrap;
+    padding: 10px 10px 0 10px;
+    align-items: flex-end;
+  }
+  .tab {
+    flex: 1;
+    padding: 14px 10px;
+    text-align: center;
+    font-weight: 600;
+    color: #d1c4e9;
+    background-color: rgba(255,255,255,0.1);
+    transition: all 0.2s ease;
+    border-radius: 10px 10px 0 0;
+    min-width: 150px;
+    font-size: 0.95rem;
+    margin: 0 3px;
+    border: 1px solid rgba(255,255,255,0.05);
+    border-bottom: none;
+  }
+  .tab:hover {
+    background-color: rgba(255,255,255,0.2);
+    color: #ffffff;
+    transform: translateY(-2px);
+  }
+  .tab.active {
+    background-color: #ffffff;
+    color: #513873;
+    font-weight: 700;
+    transform: none;
+    box-shadow: 0 -4px 10px rgba(0,0,0,0.1);
+  }
+  .tab.active:hover {
+    transform: none;
+  }
+  .content-area {
+    padding: 20px;
+    min-height: 250px;
+  }
+  .content-section {
+    display: none;
+    animation: fadeIn 0.4s ease-out;
+  }
+  .content-section.active {
+    display: block;
+  }
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+  }
+  .info-card {
+    background-color: #F8F6FA;
+    border-left: 5px solid #513873;
+    padding: 15px;
+    border-radius: 6px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+    transition: transform 0.2s;
+  }
+  .info-card:hover {
+    transform: translateY(-2px);
+  }
+  .info-card h4 {
+    margin-top: 0;
+    color: #513873;
+    margin-bottom: 10px;
+    font-size: 1.1em;
+  }
+  .info-card p {
+    margin: 0;
+    font-size: 0.95em;
+    line-height: 1.6;
+    color: #413659;
+  }
+  .highlight-box {
+    background-color: #513873;
+    color: white;
+    padding: 15px;
+    border-radius: 8px;
+    margin-top: 15px;
+    text-align: center;
+  }
+  .highlight-box h4 {
+    margin-top: 0;
+    color: #C6B4D9;
+    font-size: 1.2em;
+    margin-bottom: 10px;
+  }
+  .warning-box {
+    background-color: #fff0f0;
+    border: 1px solid #ffcccc;
+    border-left: 5px solid #d9534f;
+    padding: 15px;
+    border-radius: 4px;
+    margin-bottom: 20px;
+    color: #a94442;
+  }
+  .warning-box strong {
+    display: block;
+    margin-bottom: 5px;
+  }
+  
+  .referral-section {
+    margin-top: 30px;
+    text-align: center;
+    padding-top: 20px;
+    border-top: 1px solid #eee;
+  }
+  .btn-refer {
+    display: inline-block;
+    background-color: #9C7F9D;
+    color: white;
+    padding: 12px 25px;
+    border-radius: 30px;
+    text-decoration: none;
+    font-weight: bold;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    transition: background-color 0.2s;
+  }
+  .btn-refer:hover {
+    background-color: #8a6d8b;
+  }
+  
+  ul.checklist {
+    list-style: none;
+    padding: 0;
+  }
+  ul.checklist li {
+    padding: 12px 0;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    align-items: flex-start;
+  }
+  ul.checklist li:before {
+    content: "✓";
+    color: #9C7F9D;
+    font-weight: bold;
+    margin-right: 15px;
+    font-size: 1.2em;
+  }
+  
+  .contact-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+    text-align: left;
+    margin-top: 10px;
+  }
+  .contact-item {
+    background: rgba(255,255,255,0.1);
+    padding: 10px;
+    border-radius: 4px;
+  }
+  .contact-item strong {
+    color: #C6B4D9;
+    display: block;
+    margin-bottom: 4px;
+  }
+  
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @media (max-width: 600px) {
+    .content-area {
+      padding: 15px;
+    }
+    .tabs {
+      flex-direction: column;
+    }
+    .tab {
+      border-bottom: 1px solid rgba(0,0,0,0.05);
+      border-left: 4px solid transparent;
+      border-radius: 0;
+      margin: 0;
+    }
+    .tab.active {
+      border-bottom: 1px solid rgba(0,0,0,0.05);
+      border-left: 4px solid #513873;
+    }
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <div class="header">
+    <h2>How to Respond</h2>
+    <p>Select a topic below to see what to do</p>
+  </div>
+
+  <div class="tabs">
+    <div class="tab active" onclick="showTab('victim')">Helping a Victim</div>
+    <div class="tab" onclick="showTab('perpetrator')">Helping Someone Who Used Violence</div>
+    <div class="tab" onclick="showTab('workplace')">Workplace Rules</div>
+  </div>
+
+  <div class="content-area">
+    
+    <!-- Victim Response Section -->
+    <div id="victim" class="content-section active">
+      <h3 style="color: #413659; margin-top: 0; margin-bottom: 15px;">Helping a Victim-Survivor</h3>
+      <p style="margin-bottom: 25px; color: #666; line-height: 1.6;">When someone tells you they are experiencing violence, your main job is to listen and believe them. Do not try to be a detective.</p>
+      
+      <div class="card-grid">
+        <div class="info-card">
+          <h4>1. Listen and Believe</h4>
+          <p>Listen without judging. Say clearly: "I believe you." Show you understand and trust them.</p>
+        </div>
+        <div class="info-card">
+          <h4>2. It Is Not Their Fault</h4>
+          <p>Tell them clearly: The abuse is <strong>not your fault</strong>. No one deserves this.</p>
+        </div>
+        <div class="info-card">
+          <h4>3. Respect Their Choices</h4>
+          <p>Support what they want to do. <strong>Do not force them to leave</strong> if they are not ready. Leaving can be very dangerous.</p>
+        </div>
+        <div class="info-card">
+          <h4>4. Offer Real Help</h4>
+          <p>Ask about real needs: "Can I help with the kids?" or "Do you need a lift somewhere?"</p>
+        </div>
+        <div class="info-card">
+          <h4>5. Plan for Safety</h4>
+          <p>Talk about ways to be safer (like packing an emergency bag). If you are not sure, call an expert.</p>
+        </div>
+        <div class="info-card">
+          <h4>6. Privacy</h4>
+          <p>Promise to keep their story private. Only tell someone if there is a serious danger right now.</p>
+        </div>
+      </div>
+      
+      <div class="referral-section">
+        <p style="margin-bottom: 10px; font-weight: 600;">Main Number to Call</p>
+        <div class="btn-refer">1800RESPECT (1800 737 732)</div>
+      </div>
+    </div>
+
+    <!-- Perpetrator Response Section -->
+    <div id="perpetrator" class="content-section">
+      <h3 style="color: #413659; margin-top: 0; margin-bottom: 15px;">Helping Someone Who Used Violence</h3>
+      <p style="margin-bottom: 20px; color: #666; line-height: 1.6;">Violence can happen in any relationship. This includes women being violent to men, and violence in same-sex relationships. Your goal is to get them to expert help without making things unsafe.</p>
+      
+      <div class="warning-box">
+        <strong>⚠️ IMPORTANT SAFETY WARNING</strong>
+        Do NOT ask for details about the violence. This can make it unsafe for the victim.
+      </div>
+
+      <div class="card-grid">
+        <div class="info-card" style="border-left-color: #9C7F9D;">
+          <h4>How to Act</h4>
+          <p>Stay calm. Do not judge. Do not agree with their excuses. But do not start a fight.</p>
+        </div>
+        <div class="info-card" style="border-left-color: #9C7F9D;">
+          <h4>Do Not Use These</h4>
+          <p><strong>NEVER</strong> use couples counselling, anger management, or mediation. These are dangerous here.</p>
+        </div>
+        <div class="info-card" style="border-left-color: #9C7F9D;">
+          <h4>What to Say</h4>
+          <p><em>"From what you have told me... it sounds like you are having a hard time. There are services available to help people change their behaviour."</em></p>
+        </div>
+      </div>
+      
+      <div class="highlight-box">
+        <h4>Who to Call</h4>
+        <div class="contact-grid">
+            <div class="contact-item">
+                <strong>Men's Referral Service</strong>
+                1300 766 491
+            </div>
+            <div class="contact-item">
+                <strong>13YARN (Indigenous)</strong>
+                13 92 76
+            </div>
+            <div class="contact-item">
+                <strong>QLife (LGBTIQ+)</strong>
+                1800 184 527
+            </div>
+            <div class="contact-item">
+                <strong>1800RESPECT</strong>
+                1800 737 732
+            </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Workplace Response Section -->
+    <div id="workplace" class="content-section">
+      <h3 style="color: #413659; margin-top: 0; margin-bottom: 15px;">Workplace Duties</h3>
+      <p style="margin-bottom: 20px; color: #666; line-height: 1.6;">Workplaces must keep people safe. You must support the person and follow the rules.</p>
+
+      <ul class="checklist">
+        <li>
+          <div>
+            <strong>Find a Private Place</strong>
+            <br><span style="font-size: 0.9em; color: #666;">Go to a private room now. Do not talk where others can hear.</span>
+          </div>
+        </li>
+        <li>
+          <div>
+            <strong>Know Your Role</strong>
+            <br><span style="font-size: 0.9em; color: #666;">Be supportive. But remember you are a colleague, not a counsellor.</span>
+          </div>
+        </li>
+        <li>
+          <div>
+            <strong>Check Safety Now</strong>
+            <br><span style="font-size: 0.9em; color: #666;">Is the violent person coming to work? Do you need to call security or police?</span>
+          </div>
+        </li>
+        <li>
+          <div>
+            <strong>Make Helpful Changes</strong>
+            <br><span style="font-size: 0.9em; color: #666;">Can you change their phone number? Change work hours? Move their desk away from the front door?</span>
+          </div>
+        </li>
+        <li>
+          <div>
+            <strong>Write It Down</strong>
+            <br><span style="font-size: 0.9em; color: #666;">Keep a private note of what was said and done. Keep this separate from other staff files.</span>
+          </div>
+        </li>
+        <li>
+          <div>
+            <strong>Check the Rules</strong>
+            <br><span style="font-size: 0.9em; color: #666;">Ask if they want to talk to HR about Domestic Violence Leave or support services.</span>
+          </div>
+        </li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  function showTab(tabId) {
+    // Hide all sections
+    const sections = document.querySelectorAll('.content-section');
+    sections.forEach(section => section.classList.remove('active'));
+    
+    // Deactivate all tabs
+    const tabs = document.querySelectorAll('.tab');
+    tabs.forEach(tab => tab.classList.remove('active'));
+    
+    // Show selected section
+    document.getElementById(tabId).classList.add('active');
+    
+    // Activate selected tab (find the one with the matching onclick)
+    const activeTab = Array.from(tabs).find(tab => tab.getAttribute('onclick').includes(tabId));
+    if (activeTab) {
+      activeTab.classList.add('active');
+    }
+  }
+</script>
+
+</body>
+</html>
